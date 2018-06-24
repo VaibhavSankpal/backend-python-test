@@ -4,7 +4,8 @@ from flask import (
     redirect,
     render_template,
     request,
-    session
+    session,
+    jsonify
     )
 
 
@@ -90,3 +91,24 @@ def changeStatus_POST(id):
         "UPDATE todos SET is_complete = NOT is_complete WHERE id ='%s'" % id)
     g.db.commit()
     return redirect('/todo')
+
+@app.route('/todo/<id>/json', methods=['GET'])
+def get_json_data(id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+    cur = g.db.execute("SELECT * FROM todos where id ='%s'" % id)
+    todos = cur.fetchall()
+    todo_as_json = []
+
+    for row in todos:
+        print(row)
+        data = {
+            "id":list(row)[0],
+            "user_id":list(row)[1],
+            "description":list(row)[2],
+            "is_complete":list(row)[3]
+        }
+        todo_as_json.append(data)    
+
+    print(todo_as_json)
+    return jsonify(todo_as_json)
