@@ -112,3 +112,13 @@ def get_json_data(id):
 
     print(todo_as_json)
     return jsonify(todo_as_json)
+
+@app.route('/todo-paginated', methods=['GET'])
+@app.route('/todo-paginated/<page>/<size>', methods=['GET'])
+def todosPaginated(page, size):
+    offset = (int(page+"") -1) * int(size+"")
+    if not session.get('logged_in'):
+        return redirect('/login')
+    cur = g.db.execute("SELECT * FROM todos LIMIT "+size+" OFFSET "+str(offset))
+    todos = cur.fetchall()
+    return render_template('todos-paginated.html', todos=todos, size=size)
