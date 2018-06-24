@@ -1,6 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<script>
+        function validateForm() {
+        var x = document.forms["todoForm"]["description"].value;
+        if (x == "") { 
+            alert("Description must be filled out");
+            return false;
+        }
+
+        return true;
+    }
+
+</script>
 <div class="col-md-4 col-md-offset-4">
     <h1>Todo List:</h1>
     <table class="table table-striped">
@@ -22,7 +34,7 @@
             </tr>
         {% endfor %}
         <tr>
-            <form method="post" action="{{ url_for('todos_POST') }}">
+            <form method="post" name="todoForm" onsubmit=" return validateForm()" action="{{ url_for('todos_POST') }}">
                 <td colspan="3">
                     <input type="textbox" name="description" class="small-6 small-center" placeholder="Description...">
                 </td>
