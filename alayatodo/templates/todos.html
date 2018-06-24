@@ -8,8 +8,21 @@
             alert("Description must be filled out");
             return false;
         }
-
         return true;
+    }
+
+    function askConfirmation(type){
+    alert('called');
+        if(type=='add'){
+            confirm("Are you sure you want add this record?");
+            }
+        }
+
+    function askConfirmation(type){
+    alert('called');
+        if(type=='delete'){
+            confirm("Are you sure you want delete this record?");
+        }
     }
 
 </script>
@@ -27,14 +40,14 @@
                     </a>
                 </td>
                 <td>
-                    <form method="post" action="{{ url_for('todo_delete', id=todo.id) }}">
+                    <form method="post" onsubmit="return confirm('Do you really want to Delete the record?');" action="{{ url_for('todo_delete', id=todo.id) }}">
                         <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove glyphicon-white"></span></button>
                     </form>
                 </td>
             </tr>
         {% endfor %}
         <tr>
-            <form method="post" name="todoForm" onsubmit=" return validateForm()" action="{{ url_for('todos_POST') }}">
+            <form method="post" name="todoForm" onsubmit=" return validateForm() && confirm('Do you really want to Add the record?')" action="{{ url_for('todos_POST') }}">
                 <td colspan="3">
                     <input type="textbox" name="description" class="small-6 small-center" placeholder="Description...">
                 </td>
