@@ -2,7 +2,7 @@ from flask import Flask, g
 import sqlite3
 
 # configuration
-DATABASE = '/tmp/alayatodo.db'
+DATABASE = 'alayatodo.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
@@ -13,9 +13,12 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
+import sqlite3
+
 def connect_db():
-    conn = sqlite3.connect(app.config['DATABASE'])
+    conn = sqlite3.connect('alayatodo.db')
     conn.row_factory = sqlite3.Row
+    print("Opened database successfully")
     return conn
 
 
